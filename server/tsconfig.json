@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    /* Transpiling */
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "outDir": "build",
+    "sourceMap": true,
+
+    /* Target */
+    "target": "ES2022",
+    "lib": ["es2022"],
+
+    /* Linting */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Misc */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowJs": true
+  },
+  "include": ["src"]
+}
