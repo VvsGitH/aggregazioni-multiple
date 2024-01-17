@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { CellContext, ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Center, Loader, Paper, Table, Text } from "@mantine/core";
 import { IRegisteredActivity } from "../../types";
+import { formatDate } from "../../utils";
 
 interface ActivityTableProps {
   data: IRegisteredActivity[];
@@ -18,7 +19,7 @@ export function ActivityTable(props: ActivityTableProps) {
       {
         header: "Date",
         accessorKey: "date",
-        cell: (ctx: CellContext<IRegisteredActivity, unknown>) => new Date(ctx.getValue<string>()).toLocaleDateString()
+        cell: (ctx: CellContext<IRegisteredActivity, unknown>) => formatDate(ctx.getValue<string>())
       },
       { header: "Hours", accessorKey: "hours" }
     ];
