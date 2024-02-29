@@ -8,8 +8,8 @@ import db from "./mock-simple.json" assert { type: "json" };
 
 /**
  * Return the list of registered activities
- * @param filter 
- * @returns 
+ * @param filter
+ * @returns
  */
 export async function getRegisteredActivities(
   filter: IFilterQuery
@@ -156,6 +156,40 @@ function sortActivities(
     else if (valueA > valueB) return orderDirMult;
     return 0;
   });
+}
+
+/**
+ * Sort activities by the value of multiple fields
+ * @param activities
+ * @param orderBy
+ * @param orderDir
+ * @returns
+ */
+function sortActivities2Mult(
+  activities: IRegisteredActivity[],
+  orderBy: string[],
+  orderDir?: "asc" | "desc"
+): IRegisteredActivity[] {
+  const orderDirMult = orderDir === "desc" ? -1 : 1;
+
+  const sortByField = (a: IRegisteredActivity, b: IRegisteredActivity, byIndx: number = 0): number => {
+    const by = orderBy[byIndx];
+    if (!by) return 0;
+
+    const valueA = getValue(a, by);
+    const valueB = getValue(b, by);
+
+    if (valueA == null || valueB == null) return sortByField(a, b, byIndx + 1);
+    if (typeof valueA == "object") {
+      throw new ApiError(`Invalid orderBy field ${orderBy}. This field contains a nested object.`, 400);
+    }
+
+    if (valueA < valueB) return -orderDirMult;
+    else if (valueA > valueB) return orderDirMult;
+    return sortByField(a, b, byIndx + 1);
+  };
+
+  return activities.sort((a, b) => sortByField(a, b, 0));
 }
 
 /**
